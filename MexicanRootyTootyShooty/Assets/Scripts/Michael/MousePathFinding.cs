@@ -3,15 +3,21 @@ using UnityEngine.AI;
 
 
 
-public class PathFinding : MonoBehaviour {
+public class MousePathFinding : MonoBehaviour {
     
 
     public Camera cam;
 
     public NavMeshAgent agent;
-    	
-	// Update is called once per frame
-	void Update () {
+
+    void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
+
+    // Update is called once per frame
+    void Update () {
         //if the left mouse button is clicked it will cast a ray 
         if (Input.GetMouseButtonDown(0))
         {

@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyClass{
-    
+
+    public float health;
+
     public float shotDelay;
 
     public float maxShootingDistance;
@@ -12,6 +14,7 @@ public class EnemyClass{
     public float moveSpeed;
     public EnemyClass ()
     {
+        health = 3;
 
         shotDelay = 1.0f;
 
