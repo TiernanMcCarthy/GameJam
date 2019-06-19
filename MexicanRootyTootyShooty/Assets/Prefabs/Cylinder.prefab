@@ -23,11 +23,10 @@ GameObject:
   - component: {fileID: 23654783239412212}
   - component: {fileID: 136925856786141962}
   - component: {fileID: 195638547280681670}
-  - component: {fileID: 114407390712626886}
   - component: {fileID: 114524042678809264}
   m_Layer: 9
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,19 +86,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1128991778568420}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114407390712626886
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1128991778568420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7707ad9944a227478ba6a14e1c4bdf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  agent: {fileID: 195638547280681670}
 --- !u!114 &114524042678809264
 MonoBehaviour:
   m_ObjectHideFlags: 1

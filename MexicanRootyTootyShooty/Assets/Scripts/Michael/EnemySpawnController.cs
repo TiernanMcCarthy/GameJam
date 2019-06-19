@@ -9,7 +9,7 @@ public class EnemySpawnController : MonoBehaviour {
 
     public int enemyKillCounter = 0;
     public int enemySpawnCounter = 0;
-    public int waveCounter = 0;
+    public int waveCounter = 1;
 
     public int enemiesPerWave = 5;
 
@@ -17,7 +17,9 @@ public class EnemySpawnController : MonoBehaviour {
 
     public float rounderTimerIncreaser = 15;
 
-    public float countdown;
+    public float waveCountdown;
+    public float killCountdown = 0;
+    public float killRoundTimer = 5;
 
     public float[] t;
 
@@ -27,6 +29,7 @@ public class EnemySpawnController : MonoBehaviour {
     public Vector3[] enemySpawnerPosition;
 
     public Transform[] enemySpawnerList;
+    public bool isKillTimerUp = true;
     public bool waveIsActive = true;
     public bool timerUp;
 
@@ -46,6 +49,8 @@ public class EnemySpawnController : MonoBehaviour {
 
     void Update()
     {
+
+
         for (int i = 0; i < enemySpawnerList.Length; i++)
         {
             t[i] -= Time.deltaTime;
@@ -57,42 +62,28 @@ public class EnemySpawnController : MonoBehaviour {
             }
         }
 
-        //this will start a new wave when all enemies are killed even if the other 
+        //this will start a new wave when all enemies are killed even if the other timer is running
         if (enemyKillCounter >= enemiesPerWave)
         {
+            if (isKillTimerUp) { killCountdown = killRoundTimer; }
+            isKillTimerUp = false;
             waveIsActive = false;
-            StartCoroutine(WaitAndStartNewWave(5));
 
-            waveIsActive = true;
+            killCountdown -= Time.deltaTime;
 
-            waveCounter++;
-
-            enemySpawnCounter = 0;
-            enemiesPerWave += 5;
+            if (killCountdown <= 0) { EndOfWave(); }
         }
 
-        //this will start a new wave automatically if the player doesnt kill all the enemies
+        //this will start a new wave automatically if the player doesn't kill all the enemies
         if (enemySpawnCounter >= enemiesPerWave)
         {
-            if (waveIsActive) { countdown = roundTimer; }
+            if (waveIsActive) { waveCountdown = roundTimer; }
 
             waveIsActive = false;
+            
+            waveCountdown -= Time.deltaTime;
 
-            countdown -= Time.deltaTime;
-            if (countdown <= 0)
-            {
-                StartCoroutine(WaitAndStartNewWave(0));
-                for (int i = 0; i < enemySpawnerList.Length; i++)
-                {
-                    SetRandomTime(i);
-                }
-                waveIsActive = true;
-
-                waveCounter++;
-
-                enemySpawnCounter = 0;
-                enemiesPerWave += 5;
-            }
+            if (waveCountdown <= 0) { EndOfWave(); }
         }
 
         if ((waveCounter == 10 && timerUp) || (waveCounter == 20 && timerUp))
@@ -120,11 +111,23 @@ public class EnemySpawnController : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
-            print("WaitAndPrint " + Time.time);
-
-
-
         }
+    }
+    void EndOfWave()
+    {
+        for (int i = 0; i < enemySpawnerList.Length; i++)
+        {
+            SetRandomTime(i);
+        }
+        waveIsActive = true;
+
+        waveCounter++;
+
+        enemyKillCounter = 0;
+        enemySpawnCounter = 0;
+
+        enemiesPerWave += 5;
+        isKillTimerUp = true;
     }
 
 

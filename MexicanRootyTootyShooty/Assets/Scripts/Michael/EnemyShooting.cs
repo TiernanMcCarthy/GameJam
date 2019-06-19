@@ -45,7 +45,7 @@ public class EnemyShooting : MonoBehaviour
             {
                 if (hit.transform.tag == "Player")
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 10, Color.yellow);
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 10, Color.red);
                     Debug.Log("SHOOOOOOOT!");
                 }
             }
