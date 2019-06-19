@@ -11,9 +11,15 @@ public class EnemyShooting : MonoBehaviour
     
     public NavMeshAgent agent;
 
+    public GameObject enemyProjectilePrefab;
+
+    public Transform enemyProjectileStartingPosition;
+
 
     void Start()
     {
+        enemyProjectileStartingPosition = GetComponentInChildren<Transform>();
+
         playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
     }
 
@@ -46,11 +52,25 @@ public class EnemyShooting : MonoBehaviour
                 if (hit.transform.tag == "Player")
                 {
                     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 10, Color.red);
-                    Debug.Log("SHOOOOOOOT!");
+
+                    InitiateEnemyShot(enemyClass_);
                 }
             }
 
 
         }
     }
+
+    private IEnumerator InitiateEnemyShot(EnemyClass enemyClass_)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(enemyClass_.projectileDelayAmount);
+
+            Instantiate(enemyProjectilePrefab, enemyProjectileStartingPosition);
+
+        }
+    }
+
+
 }

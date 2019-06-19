@@ -71,6 +71,7 @@ public class EnemySpawnController : MonoBehaviour {
 
             killCountdown -= Time.deltaTime;
 
+            waveCountdown = 5;
             if (killCountdown <= 0) { EndOfWave(); }
         }
 

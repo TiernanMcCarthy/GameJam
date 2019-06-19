@@ -7,7 +7,8 @@ public class EnemyClass{
 
     public float health;
 
-    public float shotDelay;
+    public float projectileDelayAmount;
+    public float projectileMoveSpeed;
 
     public float maxShootingDistance;
 
@@ -16,11 +17,13 @@ public class EnemyClass{
     {
         health = 3;
 
-        shotDelay = 1.0f;
+        projectileDelayAmount = 1.0f;
 
         maxShootingDistance = 10;
 
         moveSpeed = 12;
+
+
     }
 
 
