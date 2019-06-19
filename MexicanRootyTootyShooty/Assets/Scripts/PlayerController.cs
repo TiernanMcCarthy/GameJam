@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetAxisRaw("Mouse X") != 0)
         {
             Vector3 Euler = transform.rotation.eulerAngles;
-            transform.rotation = Quaternion.Euler(Euler.x, Euler.y + Input.GetAxisRaw("Mouse X"), Euler.z);
+            transform.rotation = Quaternion.Euler(Euler.x, Euler.y + Input.GetAxisRaw("Mouse X")*sensitivity, Euler.z);
            // Camera.transform.rotation = Quaternion.Euler(Camera.transform.rotation.x,transform.rotation.eulerAngles.y, Camera.transform.rotation.z);
 
         }
