@@ -13,9 +13,12 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject Camera;
 
+    public Vector3 CameraDistance;
+
+
+
     bool Grounded=true;
     public Rigidbody rig;
-    Vector3 bob = new Vector3(0,0,0);
     float rotationamount = 0;
 	// Use this for initialization
 	void Start () {
@@ -69,7 +72,9 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetAxisRaw("Mouse X") != 0)
         {
             Vector3 Euler = transform.rotation.eulerAngles;
-            rig.rotation = Quaternion.Euler(Euler.x, Euler.y + Input.GetAxisRaw("Mouse X")*sensitivity, Euler.z);
+            transform.rotation = Quaternion.Euler(Euler.x, Euler.y + Input.GetAxisRaw("Mouse X"), Euler.z);
+           // Camera.transform.rotation = Quaternion.Euler(Camera.transform.rotation.x,transform.rotation.eulerAngles.y, Camera.transform.rotation.z);
+
         }
         if (Input.GetAxisRaw("Mouse Y") != 0)
         {
@@ -88,6 +93,11 @@ public class PlayerController : MonoBehaviour {
             }
            Camera.transform.rotation = Quaternion.Euler(-rotationamount, Euler.y, Euler.z);
         }
+
+
+
+
+
         if (Input.GetAxis("Jump")!=0 && Grounded==true)
         {
             //Grounded = false;

@@ -2,54 +2,100 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camerastuff : MonoBehaviour {
+public class Camerastuff : MonoBehaviour
+{
     // Use this for initialization
-	void Start () {
+    public PlayerController Player;
 
-        Vector3 Baseposition = new Vector3();
-        Quaternion q = new Quaternion
-        {
-            w = Mathf.Sqrt(Mathf.Max(0, 1 + Baseposition.x+ Baseposition.y+Baseposition.z)/2),
+    public float Max, Min;
 
+   
+    public float offset;
 
-
-
-        };
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
-    /*public static Quat QuaternionFromMatrix(Matrix4by4 m)
+    public float ActualDistanceZ; //Store the modified distance value for the camera
+    public float ActualDistanceY;
+    float originalDistanceZ;
+    public float  temp;
+    float originalDistanceY;
+    void Start()
     {
-        // Adapted from: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
-
-        Quat q = new Quat
-        {
-            //sets w,x,y and z respectively to the square root of the largest of the values inputted.
-            w = Mathf.Sqrt(Mathf.Max(0, 1 + m.values[0, 0] + m.values[1, 1] + m.values[2, 2])) / 2,
-            x = Mathf.Sqrt(Mathf.Max(0, 1 + m.values[0, 0] - m.values[1, 1] - m.values[2, 2])) / 2,
-            y = Mathf.Sqrt(Mathf.Max(0, 1 - m.values[0, 0] + m.values[1, 1] - m.values[2, 2])) / 2,
-            z = Mathf.Sqrt(Mathf.Max(0, 1 - m.values[0, 0] - m.values[1, 1] + m.values[2, 2])) / 2
-        };
-        //Here it sets the x,y and z respectively to be the sine of the position multiplied by value in th matrix.
-        q.x *= Mathf.Sign(q.x * (m.values[2, 1] - m.values[1, 2]));
-        q.y *= Mathf.Sign(q.y * (m.values[0, 2] - m.values[2, 0]));
-        q.z *= Mathf.Sign(q.z * (m.values[1, 0] - m.values[0, 1]));
-        return q;
+        originalDistanceZ = Player.CameraDistance.z;
+        originalDistanceY = Player.CameraDistance.y;
     }
 
-    Quaternion actualRotation = new Quaternion(
-    VectorMaths.QuaternionFromMatrix(playerTransform.R).x,
-    VectorMaths.QuaternionFromMatrix(playerTransform.R).y,
-    VectorMaths.QuaternionFromMatrix(playerTransform.R).z,
-    VectorMaths.QuaternionFromMatrix(playerTransform.R).w);
+    // Update is called once per frame
+    void Update()
+    {
+        //transform.position = transform.parent.position + Player.CameraDistance;
+
+        //transform.parent.tr = transform.parent.position + Player.CameraDistance;
+       
+
+        transform.localPosition = new Vector3(Player.CameraDistance.x,ActualDistanceY, -ActualDistanceZ);
 
 
-    transform.rotation = actualRotation;
+        //  transform.localPosition =new Vector3 (0, 1, 1);
 
-        transform.position = (playerTransform.TRS* cameraTransform.TRS) * cameraTransform.position;*/
+        //transform.parent.SetPositionAndRotation(Player.CameraDistance, transform.parent.rotation);
+        //transform.position = new Vector3(0, 0, 3);
+
+//transform.position=transform.parent.position
+       // transform.position = transform.parent.position+Player.CameraDistance;
+
+       // transform.parent.position = Player.CameraDistance;
+
+        //transform.parent.
+
+        //transform.position = Player.transform.localPosition + Player.CameraDistance;
+
+       // transform.position = transform.parent.localPosition + Player.CameraDistance;
+
+        //Rotation=0 Distance =Distance
+
+        //If Rotation<0 Get closer e.g. Distance= distance *0.3
+
+        //Else Rotation > 0 // Get Further Away
+
+
+        if(transform.localRotation.eulerAngles.x < 360 && transform.localRotation.eulerAngles.x>270) //-90?
+           {
+
+
+
+                //float normalised= (transform.position.z-Mathf.Min())
+                //transform.position = new Vector3(-9000, 0, 0);
+
+               
+
+
+                //float temp =(transform.localRotation.eulerAngles.x - 90) * -1;
+               
+                temp = transform.localRotation.eulerAngles.x / 90;
+               // Debug.Log(temp);
+
+                ActualDistanceZ = originalDistanceZ + temp;
+                ActualDistanceY = originalDistanceY + temp-4;
+            //transform.position = new Vector3(Player.CameraDistance.x, Player.CameraDistance.y, Player.CameraDistance.z+ActualDistance);
+
+        }
+            else if (transform.localRotation.eulerAngles.x < 90 && transform.localRotation.eulerAngles.x > 0) //90
+            {
+
+
+
+                 temp = transform.localRotation.eulerAngles.x / 90;
+                //Debug.Log(temp);
+
+                ActualDistanceZ = -originalDistanceZ + temp-1;
+                ActualDistanceY = originalDistanceY + temp;
+
+            }
+
+        }
+
+
+        //Debug.Log(transform.localRotation.eulerAngles.x);
+
+    
+
 }
