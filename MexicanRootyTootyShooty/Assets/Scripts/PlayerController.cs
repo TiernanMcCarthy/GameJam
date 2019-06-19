@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour {
     public float sensitivity;
     public float jumpForce;
 
+    public Gun MyGun;
+
+
     public GameObject Camera;
 
     public Vector3 CameraDistance;
@@ -30,6 +33,38 @@ public class PlayerController : MonoBehaviour {
     {
         return (new Vector3(a.x * 57.2958f, a.y * 57.2958f, a.z * 57.2958f));
     }
+
+
+
+    public int AddAmmo(int AmmoAmount) //Input how much ammo is available
+    {
+        if((AmmoAmount+MyGun.TotalAmmo)>=MyGun.AmmoLimit) //
+        {
+            int Previous = MyGun.AmmoLimit - MyGun.TotalAmmo;
+            MyGun.TotalAmmo = MyGun.AmmoLimit;
+            return Previous; //Return the amount used;
+        }
+        else if(AmmoAmount+MyGun.TotalAmmo<MyGun.AmmoLimit) //All of it is used
+        {
+            MyGun.TotalAmmo += AmmoAmount;
+            return AmmoAmount;
+        }
+        return 0; //None was needed
+       // MyGun.TotalAmmo+=
+    }
+
+    public void AddHealth(float add)
+    {
+        health += add;
+        if(health>100)
+        {
+            health = 100;
+        }
+    }
+
+
+
+
 
     void InputScript()
     {

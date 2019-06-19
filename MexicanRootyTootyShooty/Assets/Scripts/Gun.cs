@@ -20,11 +20,12 @@ public class Gun : MonoBehaviour {
 
     float localTime=0;
 
+    public int AmmoSpawn;
+    public int AmmoLimit; //Divisible by 12 please
 
+    public int TotalAmmo;
 
-    public float AmmoLimit; //Divisible by 12 please
-
-    public float CurrentAmmo; //Divisible by 12 please
+    public int CurrentAmmo; //Divisible by 12 please
 
     public int MagazineSize; //Divisible by 12 please
 
@@ -43,9 +44,10 @@ public class Gun : MonoBehaviour {
     void Start () {
 		
     		CurrentGun=Gun1;
+            TotalAmmo = AmmoSpawn;
+            CurrentAmmo = MagazineSize;
 
-
-	}
+    }
 
     // Update is called once per frame
     void Update() {
@@ -94,33 +96,34 @@ public class Gun : MonoBehaviour {
 
 
                 }
-                Debug.Log("Whatspoppininggamers");
-                //gun+=1;
-                CurrentAmmo -= 1;
+                
+            }
 
-                if (CurrentAmmo == 0)
-                {
-                    CanShoot = false;
-                    Reloading = true;
-                }
+           // Debug.Log("Whatspoppininggamers");
+            //gun+=1;
+            CurrentAmmo -= 1;
 
-
-                gun += 1;
-                if (gun == 1)
-                {
-                    CurrentGun = Gun2;
-                }
-                else if (gun == 2)
-                {
-                    CurrentGun = Gun1;
-                    gun = 0;
-                }
-
+            if (CurrentAmmo <= 0)
+            {
                 CanShoot = false;
-                localTime = Time.time;
+                Reloading = true;
+                CurrentAmmo = 0;
             }
 
 
+            gun += 1;
+            if (gun == 1)
+            {
+                CurrentGun = Gun2;
+            }
+            else if (gun == 2)
+            {
+                CurrentGun = Gun1;
+                gun = 0;
+            }
+
+            CanShoot = false;
+            localTime = Time.time;
             //  if (collider.GetType() == typeof(MeshCollider))
 
             //Firing= TRUE toggle animation
@@ -134,10 +137,22 @@ public class Gun : MonoBehaviour {
         }
         else if (Reloading == true && Time.time - localTime > ReloadTime)
         {
-            CanShoot = true;
+            //CurrentAmmo = MagazineSize;
+           // CurrentAmmo -= MagazineSize;
+            if(TotalAmmo>MagazineSize)
+            {
+                CurrentAmmo = MagazineSize;
+                TotalAmmo -= MagazineSize;
+            }
+            else if(TotalAmmo<MagazineSize || TotalAmmo>0)
+            {
+                CurrentAmmo = TotalAmmo;
+                TotalAmmo = 0;
+            }
             localTime = 0;
-            CurrentAmmo = MagazineSize;
-           // CurrentAmmo-
+            Reloading = false;
+            CanShoot = true;
+
         }
     
 
