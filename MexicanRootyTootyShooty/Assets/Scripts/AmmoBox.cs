@@ -10,7 +10,7 @@ public class AmmoBox : MonoBehaviour {
 
     private int OriginalAmmo;
 
-
+    private Vector3 OriginalSize;
 
 
 
@@ -31,6 +31,7 @@ public class AmmoBox : MonoBehaviour {
         rig.isKinematic = true;
         m_Collider = GetComponent<Collider>();
         OriginalAmmo = Ammo;
+        OriginalSize = transform.localScale;
     }
 	
 	// Update is called once per frame
@@ -45,7 +46,7 @@ public class AmmoBox : MonoBehaviour {
         if(localTime!=0&&Time.time-localTime>respawnTime && Active==false)
         {
             m_Collider.enabled = true;
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = OriginalSize;
             localTime = 0;
             Active = true;
         }
@@ -56,6 +57,7 @@ public class AmmoBox : MonoBehaviour {
         Debug.Log("HELLO");
         if (collision.collider.gameObject.tag=="Player")
         {
+            Debug.Log(Player);
             Remainder=Player.AddAmmo(Ammo);
             Debug.Log(Remainder);
             if (Ammo-Remainder <= 0)

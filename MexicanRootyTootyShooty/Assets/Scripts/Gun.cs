@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour {
 
     public GameObject CurrentGun; //The Gun itself
 
+    public float Damage;
 
     public float TimeBetweenShots;
 
@@ -34,7 +35,7 @@ public class Gun : MonoBehaviour {
 
     public short gun=0;
 
-    bool Reloading=false;
+    public bool Reloading=false;
 
     string Whatspoppininggamers="PLEASE";
     private EnemyShooting ThatFellaIShot;
@@ -130,6 +131,25 @@ public class Gun : MonoBehaviour {
 
             //Debug.Log("BANG");
         }
+        if(Input.GetAxis("Submit")!=0 && Reloading!=true && TotalAmmo>0) //Reload Time
+        {
+            if (CurrentAmmo + TotalAmmo + 1 < 60)
+            {
+                TotalAmmo += CurrentAmmo + 1;
+            }
+            else
+            {
+                int difference = MagazineSize - CurrentAmmo;
+
+                TotalAmmo = TotalAmmo+13     - difference;
+            }
+            CanShoot = false;
+            CurrentAmmo = 0;
+            Reloading = true;
+
+        }
+
+
         if (localTime != 0 && Time.time - localTime > TimeBetweenShots && Reloading == false)
         {
             CanShoot = true;

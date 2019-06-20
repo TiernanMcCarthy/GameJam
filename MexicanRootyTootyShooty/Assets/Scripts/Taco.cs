@@ -12,7 +12,10 @@ public class Taco : MonoBehaviour {
 
     bool active=true;
 
-    float localTime;
+
+    public Vector3 OriginalSize;
+
+    public float localTime;
 
     Collider m_Collider;
 
@@ -23,18 +26,20 @@ public class Taco : MonoBehaviour {
         Player = FindObjectOfType<PlayerController>();
         m_Collider = GetComponent<Collider>();
         rig = GetComponent<Rigidbody>();
-	}
+        OriginalSize = transform.localScale;
+    }
 	
 
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if(localTime != 0 && Time.time - localTime > RespawnTime && active == false)
         {
+            Debug.Log("HELLO?");
             m_Collider.enabled = true;
-            transform.localScale = new Vector3(1, 1, 1);
-            localTime = 0;
+            transform.localScale = OriginalSize;
             active = true;
+            localTime = 0;
         }
     }
 
