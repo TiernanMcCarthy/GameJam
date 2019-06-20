@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -9,15 +10,24 @@ public class PlayerController : MonoBehaviour {
     public float health = 100;
     public float ammo= 60; //Temporary, assuming different ammo types
     public float sensitivity;
-    public float jumpForce;
+    float jumpForce;
+
+    float timey;
+    public Animator RunnyBoi;
 
     public Gun MyGun;
-
+    bool running = false;
 
     public GameObject Camera;
 
     public Vector3 CameraDistance;
 
+    public float RunSpeed;
+
+    public float respawnTime;
+
+    bool dying = false;
+    char runningforwardsorbackwards; //F Forward  B Backward, I idle
 
 
     bool Grounded=true;
@@ -26,6 +36,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rig = GetComponent<Rigidbody>();
+        Debug.Log("WHAT");
 
     }
 
@@ -34,6 +45,22 @@ public class PlayerController : MonoBehaviour {
         return (new Vector3(a.x * 57.2958f, a.y * 57.2958f, a.z * 57.2958f));
     }
 
+
+    //The value of health taken away from the player
+    public void Shot(float Amount)
+    {
+        if (health - Amount <= 0)
+        {
+            Debug.Log("Dead");
+            health = 0;
+            dying = true;
+            timey = Time.time;
+        }
+        else
+            health -= Amount;
+
+
+    }
 
 
     public int AddAmmo(int AmmoAmount) //Input how much ammo is available
@@ -69,27 +96,53 @@ public class PlayerController : MonoBehaviour {
     void InputScript()
     {
         // Vector3 Forward = RadtoDeg(Vectormaths.ForwardDirection(rig.rotation.eulerAngles));
+        runningforwardsorbackwards = 'i';
         Vector3 Forward = Vectormaths.ForwardDirection(transform.rotation.eulerAngles);
         if (Input.GetAxisRaw("Vertical")!=0)
         {
+           // RunnyBoi.SetBool("Running", true);
             //rig.velocity = transform.forward* speed * Input.GetAxisRaw("Vertical") * Time.deltaTime;
             transform.position += transform.forward * speed * Input.GetAxisRaw("Vertical") * Time.deltaTime;
-           // rig.velocity= Vectormaths
+            //running = true;
+            if (Input.GetAxisRaw("Vertical") < 0)
+            {
+                // RunnyBoi.speed = -RunSpeed;
+                RunnyBoi.SetBool("RunningBackWards", true);
+                runningforwardsorbackwards = 'b';
+            }
+            else
+            {
+               // RunnyBoi.speed = RunSpeed;
+                RunnyBoi.SetBool("Running", true);
+                runningforwardsorbackwards = 'f';
+            }
+            // rig.velocity= Vectormaths
         }
         else
         {
             rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y, 0);
+           // RunnyBoi.SetBool("Running", true);
+          //  running = true;
         }
 
         if (Input.GetAxisRaw("Horizontal") != 0)
         {
            
             Vector3 Temp = Vectormaths.VectorCrossProduct(transform.forward * Input.GetAxisRaw("Horizontal") * speed, transform.up*-1);
+            RunnyBoi.SetBool("Running", true);
             transform.position+=Temp*Time.deltaTime;
+            runningforwardsorbackwards = 'f';
         }
         else
         {
             rig.velocity = new Vector3(0, rig.velocity.y, rig.velocity.z);
+          //  RunnyBoi.SetBool("Running", true);
+        }
+
+        if (runningforwardsorbackwards == 'i')
+        {
+            RunnyBoi.SetBool("Running", false);
+            RunnyBoi.SetBool("RunningBackWards", false);
         }
 
         /*if(Input.GetAxisRaw("Vertical")!=0)
@@ -136,7 +189,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetAxis("Jump")!=0 && Grounded==true)
         {
             //Grounded = false;
-            rig.AddForce(new Vector3(0, jumpForce*Time.deltaTime, 0));
+          //  rig.AddForce(new Vector3(0, jumpForce*Time.deltaTime, 0));
         }
 
 
@@ -147,4 +200,17 @@ public class PlayerController : MonoBehaviour {
     void Update () {
         InputScript();
 	}
+
+    void FixedUpdate()
+    {
+        if(health<=0&&dying!=true)
+        {
+            dying = true;
+        }
+
+        if (Time.time - timey < respawnTime && dying == true)
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
 }

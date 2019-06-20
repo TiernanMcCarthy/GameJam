@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class EnemyShooting : MonoBehaviour
 {
 
-    public Transform playerTransform;
+   /* public Transform playerTransform;
     
     public NavMeshAgent agent;
 
@@ -70,7 +70,7 @@ public class EnemyShooting : MonoBehaviour
             Instantiate(enemyProjectilePrefab, enemyProjectileStartingPosition);
 
         }
-    }
+    }*/
 
 
 }

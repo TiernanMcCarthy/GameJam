@@ -7,6 +7,8 @@ public class UI : MonoBehaviour {
     public Text ReloadWarning;
     public Text Health;
     public Text ShrineHealth;
+    public Text Wave;
+
 
     float Shrinenene;
     public Gun TheFellasGun;
@@ -26,6 +28,12 @@ public class UI : MonoBehaviour {
 		
 	}
 
+   public void UpdateWave(int WaveNumber)
+    {
+        Wave.text = new string(("Wave:" + WaveNumber).ToCharArray());
+    }
+
+
     void FixedUpdate()
     {
         texy.text = new string(  ("Ammo: " + TheFellasGun.CurrentAmmo.ToString() + "/" + TheFellasGun.TotalAmmo.ToString()).ToCharArray()); //Gun Count
@@ -36,6 +44,7 @@ public class UI : MonoBehaviour {
         if (TheFellasGun.CurrentAmmo < 5 && TheFellasGun.Reloading != true)
         {
             ReloadWarning.text = new string(("Reload!").ToCharArray());
+            UpdateWave(3);
         }
         else if (TheFellasGun.Reloading == true)
             ReloadWarning.text = new string(("Reloading").ToCharArray());

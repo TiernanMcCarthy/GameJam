@@ -11,8 +11,8 @@ public class EnemyProjectileController : MonoBehaviour {
 	}
 	
 	void Update () {
-        EnemyClass enemyClass_;
+      //  EnemyClass enemyClass_;
 
-        transform.position += transform.forward * enemyClass_.projectileMoveSpeed;
+        //transform.position += transform.forward * enemyClass_.projectileMoveSpeed;
 	}
 }
